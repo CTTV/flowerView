@@ -17,7 +17,7 @@ var flowerView = function () {
     	container.selectAll("*").remove();
     	radius = conf.diagonal / 2;
 
-    	var sizeScale = d3.scale.linear()
+    	var sizeScale = d3.scale.sqrt()
     	    .domain([0,conf.max])
     	    .range([0, radius]);
 
