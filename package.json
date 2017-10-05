@@ -1,6 +1,6 @@
 {
   "name": "cttv.flowerView",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "flower view for summarizing the gene to disease evidence types in Open Targets",
   "main": "index.js",
   "directories": {
