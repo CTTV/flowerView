@@ -4,7 +4,8 @@ var flowerView = function () {
         diagonal : 100,
     	values : [],
     	fontsize : 12,
-    	max : 1
+    	max : 1,
+		color: '#3e8bad'
     };
 
     var radius = conf.width / 2;
@@ -21,14 +22,12 @@ var flowerView = function () {
     	    .domain([0,conf.max])
     	    .range([0, radius]);
 
-    	var colorScale = d3.scale.linear()
-    	    .domain([0,d3.extent(conf.values, function(d){
-        		return d.value;
-    	    })[1]])
-    	    //.domain([0, d3.extent(conf.values)[1]])
-    	    //.range(["#3e8bad", "#975269"]);
-    	    .range(["#3e8bad", "#3e8bad"]);
-    	var backgroundColor = "#f1f1f1";
+    	// var colorScale = d3.scale.linear()
+    	//     .domain([0,d3.extent(conf.values, function(d){
+        	// 	return d.value;
+    	//     })[1]])
+    	//     .range(["#3e8bad", "#3e8bad"]);
+
 
     	var origin = [~~(conf.width/2), ~~(conf.height/2)];
     	var svg = container.append("svg")
@@ -142,7 +141,7 @@ var flowerView = function () {
         		.attr("d", line(data))
         		.style("stroke", function () {
         		    if (d>0) {
-            			return "#3e8bad";
+            			return color;
         		    }
             		return "#ccc";
         		})
@@ -156,25 +155,23 @@ var flowerView = function () {
     	    svg.append("path")
         		.attr("class", "petal")
         		.attr("d", line(realData))
-        		.attr("fill", function () {
+                .attr("fill", function () {
                     return color;
                 });
     	};
 
     	var petals = function () {
     	    var r = 0;
-    	    conf.values.forEach (function (d, i) {
+    	    conf.values.forEach (function (d) {
         		if (d.active) {
-        		    var l = radius;
-        		    petal (l, r, sizeScale(d.value), colorScale(d.value));
+        		    petal (radius, r, sizeScale(d.value), conf.color);
         		}
         		r += radians;
 
     	    });
     	    r = 0;
-    	    conf.values.forEach (function (d, i) {
+    	    conf.values.forEach (function (d) {
         		if (d.active) {
-        		    var l = radius;
         		    label (r, d.label, d.value>0);
         		}
         		r += radians;
@@ -209,6 +206,14 @@ var flowerView = function () {
     	conf.fontsize = f;
     	return this;
     };
+
+    render.color = function (c) {
+    	if (!arguments.length) {
+    		return conf.color;
+		}
+		conf.color = c;
+    	return this;
+	};
 
     return render;
 };
